@@ -1,0 +1,8 @@
+version: '3'
+services:
+  blws-front-end:
+    build: ./
+  nginx:
+    build: ./nginx
+    ports:
+      - 8082:8082

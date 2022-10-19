@@ -1,0 +1,11 @@
+# dependencies
+/node_modules
+# build
+/build
+# idea
+/.idea
+/.husky
+/.next
+/.eslintcache
+/lib/ckeditor5-custom/
+/.history
