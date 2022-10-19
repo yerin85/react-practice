@@ -9,11 +9,14 @@ import { Facebook as FacebookIcon } from '../icons/facebook';
 import { Google as GoogleIcon } from '../icons/google';
 
 const Login = () => {
+  // formik 폼관리해주는 라이브러리
+  // 이렇게 미리 설정해주면 굳이 useState를 쓰지 않아도 괜찮음
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
+      email: 'demo@devias.io', // 초기값
       password: 'Password123'
     },
+    // yup은 validation해주는 라이브러리
     validationSchema: Yup.object({
       email: Yup
         .string()
@@ -25,6 +28,7 @@ const Login = () => {
         .max(255)
         .required('Password is required')
     }),
+    // 폼에서 submit 이벤트가 발생하면 요게 진행! 
     onSubmit: () => {
       Router
         .push('/')
@@ -58,7 +62,8 @@ const Login = () => {
               Dashboard
             </Button>
           </NextLink>
-          <form onSubmit={formik.handleSubmit}>
+          {/* formik.handleSubmit 이거 하면 포믹 submit 함수를 해줌 */}
+          <form onSubmit={formik.handleSubmit}> 
             <Box sx={{ my: 3 }}>
               <Typography
                 color="textPrimary"

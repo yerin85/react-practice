@@ -1,5 +1,20 @@
 import { Box, Button, Input } from '@mui/material';
 import { useState } from "react";
+import {styled} from "@mui/material/styles"
+
+const MainWrapper = styled(Box)(
+  ({ theme}) => (
+    {
+      position: 'reactive',
+      width: '100%',
+      background: 'black',
+
+      '& .firstBox':{
+        background: 'blue'
+      }
+    }
+  )
+)
 
 const Calculator = () => {
   const [text, SetText] = useState('');
@@ -19,13 +34,14 @@ const Calculator = () => {
 
   return (
     <>
+    <MainWrapper>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
       }}
       >
-        <Input value={text}></Input>
+        <Input className="firstBox" value={text}></Input>
             <Box>
             <Button name="num" value = "1" onClick={(e)=> setValue(e)}>1</Button>
             <Button name="num" value = "2" onClick={(e)=> setValue(e)}>2</Button>
@@ -51,6 +67,7 @@ const Calculator = () => {
             <Button name="oper" value = "/" onClick={(e)=> setValue(e)}>/</Button>
             </Box>
       </Box>
+      </MainWrapper>
     </>
   );
 };
