@@ -1,10 +1,15 @@
 import MainComponent from '@components/common/mainComponent';
+import ChartContainer from '@components/kendo/chartContainer';
+import ChartContainer2 from '@components/kendo/chartContainer2';
+import ChartContainer3 from '@components/kendo/chartContainer3';
+import ChartContainer4 from '@components/kendo/chartContainer4';
+import ChartContainer5 from '@components/kendo/chartContainer5';
 import { Box, Button, Typography } from '@mui/material';
 import { getMainData } from '@services/api/authApi';
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
-interface MainStateType  {
+interface MainStateType {
     mainCount: number;
     mainText: string;
 }
@@ -12,6 +17,8 @@ interface MainStateType  {
 const Main = () => {
     // const [count, SetCount] = useState<number>(0);
     // const [text, SetText] = useState<string>('');
+    const [showNum, setShowNum] = useState<string>('1');
+
     const [mainState, SetMainState] = useState<MainStateType>(
         {
             mainCount: 0,
@@ -25,9 +32,9 @@ const Main = () => {
         // const name = e.target.name;
         // SetCount(name === "btnPlus" ? count + 1 : count - 1);
 
-        const {name, value} = e.target;
-        const count = name === "btnPlus" ? mainState.mainCount+1 : mainState.mainCount-1;
-        SetMainState({...mainState, mainCount: count}); // 여러 개 있을 때는 둘 다 넣어줘야 함
+        const { name, value } = e.target;
+        const count = name === "btnPlus" ? mainState.mainCount + 1 : mainState.mainCount - 1;
+        SetMainState({ ...mainState, mainCount: count }); // 여러 개 있을 때는 둘 다 넣어줘야 함
         // ...~ 원래 값을 넣어준다는 뜻
     }
 
@@ -45,20 +52,22 @@ const Main = () => {
         console.log(mainComponetRef.current.getCount())
     }
 
-    
+    // useEffect(()=>{
+    //     getMainData('123')
+    //     .then((res)=>{
+    //         console.log(res)
+    //     })
+    //     .catch((err)=>{
+    //         console.log(err)
+    //     })
+    //     .finally()
 
-    useEffect(()=>{
-        getMainData('123')
-        .then((res)=>{
-            console.log(res)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-        .finally()
-        
-    }, [])
-    
+    // }, [])
+
+    const changeChart = (e) => {
+        const value = e.target.value;
+        setShowNum(value);
+    }
 
     return (
         <>
@@ -67,14 +76,26 @@ const Main = () => {
                 sx={{
                     flexGrow: 1,
                 }}
-
             >
+                <Box>
+                    <Button value="1" onClick={changeChart}> 막대그래프 </Button>
+                    <Button value="2" onClick={changeChart}> 꺽은선 그래프 </Button>
+                    <Button value="3" onClick={changeChart}> 혼합 그래프 </Button>
+                    <Button value="4" onClick={changeChart}> 테스트 </Button>
+                    <Button value="5" onClick={changeChart}> panes </Button>
+                    <Button onClick={() => router.push("/calculator")}> 계산기 </Button>
+                </Box>
+                {showNum === '1' && <ChartContainer />}
+                {showNum === '2' && <ChartContainer2 />}
+                {showNum === '3' && <ChartContainer3 />}
+                {showNum === '4' && <ChartContainer4 />}
+                {showNum === '5' && <ChartContainer5 />}
                 {/* 하위 컴포넌트로 데이터를 전달 */}
                 {/* <MainComponent onClick={buttonClick} text={'111'}></MainComponent> */}
 
                 {/* 상위 컴포넌트에서 데이터 받음 */}
-                <MainComponent onClick={buttonClick} text={'111'} ref={mainComponetRef}/>
-                
+                {/* <MainComponent onClick={buttonClick} text={'111'} ref={mainComponetRef}/> */}
+
 
                 {/* <Button name="btnPlus" onClick={(e) => changeCount(e)}> + </Button>
                 <Button name="btnMinus" onClick={(e) => changeCount(e)}> - </Button>
@@ -84,9 +105,6 @@ const Main = () => {
                 <Box>{mainState.mainCount}</Box>
                 <Typography>{mainState.mainText}</Typography> */}
             </Box>
-            
-            <Button onClick={() => router.push("/calculator")}> 계산기 </Button>
-
         </>
     );
 }
